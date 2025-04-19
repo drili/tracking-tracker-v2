@@ -4,30 +4,23 @@ import { useEffect, useState } from "react"
 
 export default function PropertyTable() {
     const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
+    const handleReSyncGA4Data = async () => {
+        setLoading(true)
+
         fetch("/api/ga4/properties")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch GA4 properties")
                 }
-                
+
                 return res.json()
             })
             .then((json) => setData(json))
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false))
-    }, [])
-
-    if (loading) {
-        return (
-            <div className="p-4 flex items-center gap-4">
-                <p>Fetching your GA4 properties...</p>
-                <span className="loading loading-dots loading-lg"></span>
-            </div>
-        )
     }
 
     if (error) {
@@ -38,7 +31,18 @@ export default function PropertyTable() {
 
     return (
         <div className="grid gap-4">
-            {data.map((item) => (
+            <span className="flex">
+                <button onClick={() => handleReSyncGA4Data()} className="btn btn-neutral">RE-SYNC GA4 properties</button>
+            </span>
+
+            {loading ? (
+                <div className="p-4 flex items-center gap-4">
+                    <p>Fetching your GA4 properties...</p>
+                    <span className="loading loading-dots loading-lg"></span>
+                </div>
+            ) : null }
+
+            {data && data.map((item) => (
                 <div
                     key={`${item.propertyId}-${item.streamId}`}
                     className="card bg-base-100 shadow-md p-4"
