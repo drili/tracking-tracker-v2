@@ -1,12 +1,11 @@
 import PropertyTable from "@/app/components/Analytics/PropertyTable"
+import TrackedPropertiesPanel from "@/app/components/Analytics/TrackedPropertiesPanel"
 
 export default function GA4PropertiesPage() {
     return (
         <section id="pageGA4PropertiesPage">
-            <h1 className="text-3xl font-bold mb-4">Properties Page</h1>
-            <p>Welcome to your properties overview page.</p>
-
-            <div>
+            <div className="flex justify-between w-full gap-4">
+                <TrackedPropertiesPanel />
                 <PropertyTable />
             </div>
         </section>

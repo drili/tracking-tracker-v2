@@ -31,8 +31,15 @@ export default function PropertyTable() {
 
     return (
         <div className="grid gap-4">
-            <span className="flex">
-                <button onClick={() => handleReSyncGA4Data()} className="btn btn-neutral">RE-SYNC GA4 properties</button>
+            <span className="flex flex-col">
+                <div className="mb-10">
+                    <div>
+                        <h1 className="text-3xl font-bold mb-4">GA4 Properties</h1>
+                        <p className="text-xs">Click the button below to fetch your GA4 properties linked to your Google account.</p>
+                        <p className="text-xs">Add them to your Tracked Properties for each property by clicking the "Add" button.</p>
+                    </div>
+                </div>
+                <button onClick={() => handleReSyncGA4Data()} className="btn btn-neutral">Fetch your linked GA4 properties</button>
             </span>
 
             {loading ? (
@@ -40,7 +47,7 @@ export default function PropertyTable() {
                     <p>Fetching your GA4 properties...</p>
                     <span className="loading loading-dots loading-lg"></span>
                 </div>
-            ) : null }
+            ) : null}
 
             {data && data.map((item) => (
                 <div
