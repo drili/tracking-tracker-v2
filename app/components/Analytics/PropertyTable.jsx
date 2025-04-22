@@ -75,7 +75,7 @@ export default function PropertyTable() {
                     <h2 className="text-lg font-semibold">
                         {item.propertyName} <span className="text-sm text-neutral">({item.propertyId})</span>
                     </h2>
-                    <button onClick={() => handleAddToTrackedProperties(item)} className="btn btn-primary mt-2 mb-5">Add to tracked properties</button>
+                    <button onClick={() => handleAddToTrackedProperties(item)} className="btn btn-seoncdary mt-2 mb-5">Add to tracked properties</button>
                     <p>
                         <strong>Stream:</strong> {item.streamName}{" "}
                         <span className="text-sm text-neutral">({item.streamId})</span>

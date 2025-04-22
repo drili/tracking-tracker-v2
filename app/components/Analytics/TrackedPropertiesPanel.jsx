@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GA4MockProps } from "@/lib/mock/GA4MockProps";
 
 export default function TrackedPropertiesPanel() {
-    const [propsList] = useState(GA4MockProps)
+    const [propsList, setPropsList] = useState(GA4MockProps)
     const [selected, setSelected] = useState(GA4MockProps[0])
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        setPropsList(GA4MockProps)
+        setIsLoading(false)
+    }, [GA4MockProps])
 
     return (
         <div className="flex flex-col w-full h-full">
@@ -15,6 +21,16 @@ export default function TrackedPropertiesPanel() {
                     <p>Welcome to your properties overview page.</p>
                 </div>
             </div>
+
+            <div className="flex mb-5">
+                {propsList && (
+                    <span className="flex gap-2 items-baseline">
+                        <button className="btn btn-primary">Run tracker</button>
+                        <p className="text-xs">Run the test tracker on all properties</p>
+                    </span>
+                )}
+            </div>
+
             <div className="flex h-full w-full">
                 <aside className="w-1/4 border-r overflow-y-auto">
                     <ul>
