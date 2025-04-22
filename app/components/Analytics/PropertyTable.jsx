@@ -6,7 +6,12 @@ export default function PropertyTable() {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [isFetched, setIsFetched] = useState(false)
 
+    const handleAddToTrackedProperties = async (item) => {
+        console.log({item})
+    }
+    
     const handleReSyncGA4Data = async () => {
         setLoading(true)
 
@@ -18,7 +23,10 @@ export default function PropertyTable() {
 
                 return res.json()
             })
-            .then((json) => setData(json))
+            .then((json) => {
+                setData(json)
+                setIsFetched(true)
+            })
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false))
     }
@@ -39,7 +47,13 @@ export default function PropertyTable() {
                         <p className="text-xs">Add them to your Tracked Properties for each property by clicking the "Add" button.</p>
                     </div>
                 </div>
-                <button onClick={() => handleReSyncGA4Data()} className="btn btn-neutral">Fetch your linked GA4 properties</button>
+                <button onClick={() => handleReSyncGA4Data()} className="btn btn-neutral mb-5">
+                    {isFetched ? (
+                        <>Re-fetch your linked GA4 properties</>
+                    ) : (
+                        <>Fetch your linked GA4 properties</>  
+                    )}
+                </button>
             </span>
 
             {loading ? (
@@ -48,6 +62,10 @@ export default function PropertyTable() {
                     <span className="loading loading-dots loading-lg"></span>
                 </div>
             ) : null}
+            
+            {isFetched && (
+                <p>Your fetched GA4 properties:</p>
+            )}
 
             {data && data.map((item) => (
                 <div
@@ -57,6 +75,7 @@ export default function PropertyTable() {
                     <h2 className="text-lg font-semibold">
                         {item.propertyName} <span className="text-sm text-neutral">({item.propertyId})</span>
                     </h2>
+                    <button onClick={() => handleAddToTrackedProperties(item)} className="btn btn-primary mt-2 mb-5">Add to tracked properties</button>
                     <p>
                         <strong>Stream:</strong> {item.streamName}{" "}
                         <span className="text-sm text-neutral">({item.streamId})</span>
@@ -74,9 +93,6 @@ export default function PropertyTable() {
                         >
                             {item.defaultUri}
                         </a>
-                    </p>
-                    <p className="text-xs text-neutral mt-2">
-                        Created: {new Date(item.createTime).toLocaleString()}
                     </p>
                 </div>
             ))}
